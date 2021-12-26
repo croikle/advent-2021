@@ -1,0 +1,292 @@
+inp w    ; in1
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 10
+eql x w  -- false
+eql x 0  -- 1
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y  -- z still 0
+mul y 0
+add y w
+add y 2
+mul y x
+add z y  -- z = in1 + 2
+
+inp w    ; in2
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 15 ; x = in1 + 17
+eql x w
+eql x 0  ; x = 1
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 16
+mul y x
+add z y  ; z = (in1 + 2)26 + in2 + 16
+
+inp w    ; in3
+mul x 0
+add x z
+mod x 26 ; x = in2 + 16
+div z 1
+add x 14
+eql x w
+eql x 0  ; x = 1
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 9
+mul y x
+add z y  ; z = in1 + 2 , in2 + 16 , in3 + 9 (base 26)
+
+inp w    ; in4
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 15
+eql x w
+eql x 0  ; x=1 can't match inp with 15+
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 0
+mul y x
+add z y  ; z = in1 + 2, in2 + 16, in3 + 9, in4
+
+inp w    ; in5
+mul x 0
+add x z
+mod x 26
+div z 26 ; z = in1 + 2, in2 + 16, in3 + 9
+add x -8 ; x = in4 - 8
+eql x w
+eql x 0  ; x = (in5 != in4 - 8)
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 1
+mul y x
+add z y
+         ; if x 0 (in5 = in4 - 8)
+         ; z = in1 + 2, in2 + 16, in3 + 9
+         ; else
+         ; z = in1 + 2, in2 + 16, in3 + 9, in5 + 1
+	kinda using z as a stack, huh
+	pop value and ~branch if div 26, otherwise adding a value
+
+inp w    ; in6
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 10
+eql x w
+eql x 0  ; x=1
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 12
+mul y x
+add z y  ; push in6 + 12
+
+inp w    ; in7
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -16 ; in6 - 4
+eql x w
+eql x 0   ; in6 - 4 != in7
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 6
+mul y x
+add z y
+
+inp w    ; in8
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -4
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 6
+mul y x
+add z y
+
+inp w   ; in9
+mul x 0
+add x z
+mod x 26
+div z 1    --- 1 or 26
+add x 11   --- positive if prev 1, neg if 26
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 3    --- arb
+mul y x
+add z y
+
+inp w   ; in10
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -3
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 5
+mul y x
+add z y
+
+inp w   ; in11
+mul x 0
+add x z
+mod x 26
+div z 1
+add x 12
+eql x w
+eql x 0
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 9
+mul y x
+add z y
+
+inp w    ;  in12
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -7
+eql x w
+eql x 0
+
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y
+mul y 0
+add y w
+add y 3
+mul y x
+add z y
+
+inp w     ;  in13
+mul x 0
+add x z
+mod x 26
+div z 26
+add x -15 ;  extract lowest digit mod 26 to x, -15
+eql x w
+eql x 0   ;  x = ! (oldz mod 26 - 15 == in13)
+
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y   ; z *= 25x + 1
+
+mul y 0
+add y w
+add y 2
+mul y x
+add z y   ; z += (in13 + 2)x
+
+inp w     ;  in14
+mul x 0
+add x z
+mod x 26  ; x = z_20 mod 26 -- giving z names
+div z 26  ; z_21 = z_20 / 26
+add x -7
+eql x w
+eql x 0   ; x = ! (z_20 mod 26 - 7 == in14)
+
+mul y 0
+add y 25
+mul y x
+add y 1
+mul z y ; z_22 = z_21 * (25x + 1)
+
+mul y 0
+add y w
+add y 3
+mul y x
+add z y ; z_23 = z_22 + (in14 + 3)x
+
+we want 0
+so z_22 = - (in14+3)x
+z_21*(25x + 1) = - (in14+3)x
+if x 0, need z_21 = 0
+if x 1, z_21*26 = - (in14+3)
+impossible unless z_21=0, since in14 in 1..9
+but still impossible
+so x=0 -->
+in14 = z_20 mod 26 - 7
+
+can we chain back?
+z_21 was 0, so z_20 in 0..25
+z_19*(25x+1)+(in13+2)x
+ok if x=0
+if x=1, get z_19=0

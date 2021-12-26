@@ -1,0 +1,68 @@
+push in1 + 2
+push in2 + 16
+push in3 + 9
+if in5 != in4 - 8
+  push in5 + 1
+if in7 != in6 - 4
+  push in7 + 6
+if in8 != pop() - 4
+  push in8 + 6
+if in10 != in9
+  push in10 + 5
+if in12 != in11 + 2
+  push in12 + 3
+if in13 != pop() - 15
+  push in13 + 2
+if in14 != pop() - 7
+  push in14 + 3
+
+
+We want 0, so we can't match any if
+that way the 3 in stack at start get popped off
+
+in5 = in4 - 8
+in7 = in6 - 4
+in8 = in3 + 5   pops in3 + 9
+in10 = in9
+in12 = in11 + 2
+in13 = in2 + 1  pops in2 + 16
+in14 = in1 - 5  pops in1 + 2
+
+
+max
+in1 = 9
+in2 = 8
+in3 = 4
+in4 = 9
+in5 = 1
+in6 = 9
+in7 = 5
+in8 = 9
+in9 = 9
+in10 = 9
+in11 = 7
+in12 = 9
+in13 = 9
+in14 = 4
+
+
+98491959997994
+
+min
+
+in1 = 6
+in2 = 1
+in3 = 1
+in4 = 9
+in5 = 1
+in6 = 5
+in7 = 1
+in8 = 6
+in9 = 1
+in10 = 1
+in11 = 1
+in12 = 3
+in13 = 2
+in14 = 1
+
+61191516111321
